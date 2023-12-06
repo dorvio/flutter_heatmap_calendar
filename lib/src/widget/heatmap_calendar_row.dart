@@ -164,24 +164,6 @@ class HeatMapCalendarRow extends StatelessWidget {
       ],
     );
   }
-
-  Widget buildWeekdayLabel(DateTime date) {
-    final weekdays = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Niedz'];
-
-    return Container(
-      width: size ?? 42,
-      height: size ?? 42,
-      margin: margin ?? const EdgeInsets.all(2),
-      alignment: Alignment.center,
-      child: Text(
-        weekdays[date.weekday - 1],
-        style: TextStyle(
-          fontSize: fontSize,
-          color: textColor,
-        ),
-      ),
-    );
-  }
 }
 
 
