@@ -174,7 +174,7 @@ class HeatMapCalendarRow extends StatelessWidget {
       margin: margin ?? const EdgeInsets.all(2),
       alignment: Alignment.center,
       child: Text(
-        weekdays[date.weekday - 1], // Zaczynamy od poniedziałku
+        weekdays[date.weekday - 1],
         style: TextStyle(
           fontSize: fontSize,
           color: textColor,
@@ -182,7 +182,6 @@ class HeatMapCalendarRow extends StatelessWidget {
       ),
     );
   }
-}
 }
 
 
