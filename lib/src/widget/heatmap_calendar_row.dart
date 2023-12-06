@@ -164,9 +164,8 @@ class HeatMapCalendarRow extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget buildWeekdayLabel(DateTime date) {
+  Widget buildWeekdayLabel(DateTime date) {
     final weekdays = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Niedz'];
 
     return Container(
@@ -184,3 +183,6 @@ Widget buildWeekdayLabel(DateTime date) {
     );
   }
 }
+}
+
+
