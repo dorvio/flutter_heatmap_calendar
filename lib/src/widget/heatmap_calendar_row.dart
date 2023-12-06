@@ -153,17 +153,28 @@ class HeatMapCalendarRow extends StatelessWidget {
         ),
         super(key: key);
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        for (int i = 1; i <= 7; i++)
+          // Zaczynamy od poniedziałku
+          HeatMapContainer(
+            date: DateTime(startDate.year, startDate.month, startDate.day - startDate.weekday + i),
+            backgroundColor: defaultColor,
+            size: size,
+            fontSize: fontSize,
+            textColor: textColor,
+            borderRadius: borderRadius,
+            margin: margin,
+            onClick: onClick,
+            selectedColor: false,
+          ),
         for (Widget container in dayContainers)
           WidgetUtil.flexibleContainer(flexible ?? false, true, container),
       ],
     );
   }
 }
-
-
