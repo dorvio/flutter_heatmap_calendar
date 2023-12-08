@@ -109,7 +109,7 @@ class HeatMapCalendarRow extends StatelessWidget {
             selectedColor: datasets?.keys.contains(DateTime(
                     startDate.year,
                     startDate.month,
-                    startDate.day - startDate.weekday % 7 + i)) ??
+                    startDate.day - startDate.weekday % 7 + i + 1)) ??
                 false
                 ? colorMode == ColorMode.opacity
                     ? colorsets?.values.first.withOpacity((datasets?[
