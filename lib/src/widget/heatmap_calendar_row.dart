@@ -92,6 +92,8 @@ class HeatMapCalendarRow extends StatelessWidget {
                   (startDate.weekday % 7 == 0 &&
                       i == 0) ||
                   (startDate.weekday % 7 == 6 &&
+                      i == 6) ||
+                  (startDate.weekday % 7 == 0 &&
                       i == 6)
               ? Container(
                   width: size ?? 42,
