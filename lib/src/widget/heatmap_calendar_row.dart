@@ -89,12 +89,20 @@ class HeatMapCalendarRow extends StatelessWidget {
           //
           // Do same works if current week has last day of the month and
           // the last day is not a saturday.
-          (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
+          (i) {
+  final currentDay = startDate.day - (startDate.weekday - 1) + i;
+  final currentDateTime = DateTime(
+    startDate.year,
+    startDate.month,
+    currentDay,
+  );
+
+  return (startDate == DateUtil.startDayOfMonth(startDate) &&
                   endDate.day - startDate.day != 7 &&
-                  i < (startDate.weekday - 1) % 7) ||
+                  i < (startDate.weekday - 1)) ||
               (endDate == DateUtil.endDayOfMonth(endDate) &&
                   endDate.day - startDate.day != 7 &&
-                  i >= (endDate.weekday - 1) % 7)
+                  i >= (endDate.weekday - 1))
           ? Container(
               width: size ?? 42,
               height: size ?? 42,
@@ -106,8 +114,7 @@ class HeatMapCalendarRow extends StatelessWidget {
                   // start day of week value and end day of week.
                   //
                   // So we have to give every day information to each HeatMapContainer.
-                  date: DateTime(startDate.year, startDate.month,
-                  startDate.day - (startDate.weekday - 1) + i),
+                  date: currentDateTime,
                   backgroundColor: defaultColor,
                   size: size,
                   fontSize: fontSize,
