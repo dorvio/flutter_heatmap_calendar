@@ -83,18 +83,16 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.onClick,
   })  : dayContainers = List<Widget>.generate(
           7,
-          // If current week has first day of the month and
-          // the first day is not a sunday, it must have extra space on it.
-          // Then fill it with empty Container for extra space.
-          //
-          // Do same works if current week has last day of the month and
-          // the last day is not a saturday.
           (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
                       endDate.day - startDate.day != 7 &&
                       i < (startDate.weekday % 7)) ||
                   (endDate == DateUtil.endDayOfMonth(endDate) &&
                       endDate.day - startDate.day != 7 &&
-                      i > (endDate.weekday % 7))
+                      i > (endDate.weekday % 7)) ||
+                  (startDate.weekday % 7 == 0 &&
+                      i == 0) ||
+                  (startDate.weekday % 7 == 6 &&
+                      i == 6)
               ? Container(
                   width: size ?? 42,
                   height: size ?? 42,
