@@ -62,34 +62,38 @@ class HeatMapCalendarRow extends StatelessWidget {
                     margin: margin ?? const EdgeInsets.all(2),
                   )
                 : HeatMapContainer(
-  date: currentDateTime,
-  backgroundColor: defaultColor,
-  size: size,
-  fontSize: fontSize,
-  textColor: textColor,
-  borderRadius: borderRadius,
-  margin: margin,
-  onClick: onClick,
-  selectedColor: datasets?.containsKey(currentDateTime) ?? false
-      ? (colorMode == ColorMode.opacity &&
-              datasets?[DateTime(
-                      startDate.year,
-                      startDate.month,
-                      startDate.day + i - (startDate.weekday - 1))] !=
-                  null)
-          ? colorsets?.values.first.withOpacity(
-              (datasets![
-                      DateTime(startDate.year, startDate.month, startDate.day + i - (startDate.weekday - 1))] ??
-                  1) /
-                  (maxValue ?? 1),
-            )
-          : DatasetsUtil.getColor(
-              colorsets,
-              datasets?[DateTime(
-                  startDate.year, startDate.month, startDate.day + i - (startDate.weekday - 1))],
-            )
-      : null,
-),
+                    date: currentDateTime,
+                    backgroundColor: defaultColor,
+                    size: size,
+                    fontSize: fontSize,
+                    textColor: textColor,
+                    borderRadius: borderRadius,
+                    margin: margin,
+                    onClick: onClick,
+                    selectedColor: datasets?.containsKey(currentDateTime) ?? false
+                        ? (colorMode == ColorMode.opacity &&
+                                datasets?[DateTime(
+                                        startDate.year,
+                                        startDate.month,
+                                        startDate.day + i - (startDate.weekday - 1))] !=
+                                    null)
+                            ? colorsets?.values.first.withOpacity(
+                                (datasets![
+                                        DateTime(startDate.year, startDate.month, startDate.day + i - (startDate.weekday - 1))] ??
+                                    1) /
+                                    (maxValue ?? 1),
+                              )
+                            : DatasetsUtil.getColor(
+                                colorsets,
+                                datasets?[DateTime(
+                                    startDate.year,
+                                    startDate.month,
+                                    startDate.day + i - (startDate.weekday - 1))],
+                              )
+                        : null,
+                  );
+          },
+        ),
         super(key: key);
 
   @override
