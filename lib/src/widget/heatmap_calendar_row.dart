@@ -129,7 +129,6 @@ class HeatMapCalendarRow extends StatelessWidget {
                             startDate.day + i - (startDate.weekday % 7))])
                 : null,
           ),
-  ),
         super(key: key);
 
   @override
