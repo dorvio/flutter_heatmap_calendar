@@ -39,57 +39,79 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.maxValue,
     this.onClick,
   }) : dayContainers = List<Widget>.generate(
-          7,
-          (i) {
-            final currentDay = startDate.day - (startDate.weekday - 1) + i;
-            final currentDateTime = DateTime(
-              startDate.year,
-              startDate.month,
-              currentDay,
-            );
-
-            return (currentDay < startDate.day ||
-                    currentDay > endDate.day ||
-                    (startDate == DateUtil.startDayOfMonth(startDate) &&
-                        endDate.day - startDate.day != 7 &&
-                        i < (startDate.weekday - 1)) ||
-                    (endDate == DateUtil.endDayOfMonth(endDate) &&
-                        endDate.day - startDate.day != 7 &&
-                        i >= (endDate.weekday % 7)))
-                ? Container(
-                    width: size ?? 42,
-                    height: size ?? 42,
-                    margin: margin ?? const EdgeInsets.all(2),
-                  )
-                : HeatMapContainer(
-                    date: currentDateTime,
-                    backgroundColor: defaultColor,
-                    size: size,
-                    fontSize: fontSize,
-                    textColor: textColor,
-                    borderRadius: borderRadius,
-                    margin: margin,
-                    onClick: onClick,
-                    selectedColor: datasets?.containsKey(currentDateTime) ?? false
-                        ? (colorMode == ColorMode.opacity &&
-                                datasets?[DateTime(
-                                        startDate.year,
-                                        startDate.month,
-                                        startDate.day + i - (startDate.weekday - 1))] !=
-                                    null)
-                            ? colorsets?.values.first.withOpacity(
-                                (datasets![
-                                        DateTime(startDate.year, startDate.month, startDate.day + i - (startDate.weekday - 1))] ??
-                                    1) /
-                                    (maxValue ?? 1),
-                              )
-                            : DatasetsUtil.getColor(
-                                colorsets,
-                                datasets?[DateTime(
-                                    startDate.year,
-                                    startDate.month,
-                                    startDate.day + i - (startDate.weekday - 1))],
-                              )
+    7,
+    (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
+            endDate.day - startDate.day != 7 &&
+            i < (startDate.weekday % 7)) ||
+        (endDate == DateUtil.endDayOfMonth(endDate) &&
+            endDate.day - startDate.day != 7 &&
+            i > (endDate.weekday % 7))
+        ? datasets?.containsKey(DateTime(startDate.year, startDate.month,
+            startDate.day - startDate.weekday % 7 + i)) ??
+            false
+            ? HeatMapContainer(
+                date: DateTime(startDate.year, startDate.month,
+                    startDate.day - startDate.weekday % 7 + i),
+                backgroundColor: defaultColor,
+                size: size,
+                fontSize: fontSize,
+                textColor: textColor,
+                borderRadius: borderRadius,
+                margin: margin,
+                onClick: onClick,
+                selectedColor: datasets?.keys
+                    .contains(DateTime(startDate.year, startDate.month,
+                        startDate.day - startDate.weekday % 7 + i)) ??
+                    false,
+                // If colorMode is ColorMode.opacity,
+                ? (colorMode == ColorMode.opacity &&
+                        datasets?[DateTime(startDate.year, startDate.month,
+                            startDate.day + i - (startDate.weekday % 7))] !=
+                            null)
+                    ? colorsets?.values.first
+                        .withOpacity((datasets?[
+                            DateTime(startDate.year, startDate.month,
+                                startDate.day + i - (startDate.weekday % 7))] ??
+                            1) /
+                        (maxValue ?? 1))
+                    : DatasetsUtil.getColor(colorsets,
+                        datasets?[DateTime(startDate.year, startDate.month,
+                            startDate.day + i - (startDate.weekday % 7))])
+                : null,
+              )
+        : (i == 0 || i == 6)
+            ? Container(
+                width: size ?? 42,
+                height: size ?? 42,
+                margin: margin ?? const EdgeInsets.all(2),
+              )
+            : HeatMapContainer(
+                date: DateTime(startDate.year, startDate.month,
+                    startDate.day - startDate.weekday % 7 + i),
+                backgroundColor: defaultColor,
+                size: size,
+                fontSize: fontSize,
+                textColor: textColor,
+                borderRadius: borderRadius,
+                margin: margin,
+                onClick: onClick,
+                selectedColor: datasets?.containsKey(DateTime(startDate.year, startDate.month,
+                    startDate.day - startDate.weekday % 7 + i)) ??
+                    false,
+                // If colorMode is ColorMode.opacity,
+                : (colorMode == ColorMode.opacity &&
+                        datasets?[DateTime(startDate.year, startDate.month,
+                            startDate.day + i - (startDate.weekday % 7))] !=
+                            null)
+                    ? colorsets?.values.first
+                        .withOpacity((datasets?[
+                            DateTime(startDate.year, startDate.month,
+                                startDate.day + i - (startDate.weekday % 7))] ??
+                            1) /
+                        (maxValue ?? 1))
+                    : DatasetsUtil.getColor(colorsets,
+                        datasets?[DateTime(startDate.year, startDate.month,
+                            startDate.day + i - (startDate.weekday % 7))])
                         : null,
                   );
           },
