@@ -98,7 +98,7 @@ class HeatMapCalendarRow extends StatelessWidget {
             date: DateTime(
                 startDate.year,
                 startDate.month,
-                startDate.day - startDate.weekday % 7 + i),
+                startDate.day - startDate.weekday % 7 + i - 1),
             backgroundColor: defaultColor,
             size: size,
             fontSize: fontSize,
