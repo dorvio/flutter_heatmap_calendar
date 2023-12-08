@@ -88,10 +88,7 @@ class HeatMapCalendarRow extends StatelessWidget {
             i < (startDate.weekday % 7) - 1) ||
         (endDate == DateUtil.endDayOfMonth(endDate) &&
             endDate.day - startDate.day != 7 &&
-            i > (endDate.weekday % 7)),
-    (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
-            endDate.day - startDate.day != 7 &&
-            i < (startDate.weekday % 7) - 1)
+            i > (endDate.weekday % 7))
         ? Container(
             width: size ?? 42,
             height: size ?? 42,
@@ -101,7 +98,7 @@ class HeatMapCalendarRow extends StatelessWidget {
             date: DateTime(
                 startDate.year,
                 startDate.month,
-                startDate.day - startDate.weekday % 7 + i),
+                startDate.day - startDate.weekday % 7 + i + 1),
             backgroundColor: defaultColor,
             size: size,
             fontSize: fontSize,
