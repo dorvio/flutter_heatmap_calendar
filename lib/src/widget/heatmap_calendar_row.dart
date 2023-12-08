@@ -83,31 +83,29 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.onClick,
   })  : dayContainers = List<Widget>.generate(
           7,
-          (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
-                      endDate.day - startDate.day != 7 &&
-                      i < (startDate.weekday % 7)) ||
-                  (endDate == DateUtil.endDayOfMonth(endDate) &&
-                      endDate.day - startDate.day != 7 &&
-                      i > (endDate.weekday % 7)) ||
-                  (startDate.weekday % 7 == 0 &&
-                      i == 0) ||
-                  (startDate.weekday % 7 == 6 &&
-                      i == 6) ||
-                  (startDate.weekday % 7 == 0 &&
-                      i == 6)
+          // Check if the current day is Monday and adjust the start day accordingly.
+          (i) => startDate.weekday == DateTime.monday
               ? Container(
                   width: size ?? 42,
                   height: size ?? 42,
                   margin: margin ?? const EdgeInsets.all(2),
                 )
-              // If the day is not a empty one then create HeatMapContainer.
+              // After adjusting the start day, calculate the rest of the days.
+              : (startDate == DateUtil.startDayOfMonth(startDate) &&
+                      endDate.day - startDate.day != 7 &&
+                      i < (startDate.weekday % 7) + 1) ||
+                  (endDate == DateUtil.endDayOfMonth(endDate) &&
+                      endDate.day - startDate.day != 7 &&
+                      i > (endDate.weekday % 7))
+              ? Container(
+                  width: size ?? 42,
+                  height: size ?? 42,
+                  margin: margin ?? const EdgeInsets.all(2),
+                )
+              // Create HeatMapContainer for the remaining days.
               : HeatMapContainer(
-                  // Given information about the week is that
-                  // start day of week value and end day of week.
-                  //
-                  // So we have to give every day information to each HeatMapContainer.
                   date: DateTime(startDate.year, startDate.month,
-                      startDate.day - startDate.weekday % 7 + i),
+                      startDate.day - startDate.weekday % 7 + i + 1),
                   backgroundColor: defaultColor,
                   size: size,
                   fontSize: fontSize,
@@ -115,20 +113,13 @@ class HeatMapCalendarRow extends StatelessWidget {
                   borderRadius: borderRadius,
                   margin: margin,
                   onClick: onClick,
-                  // If datasets has DateTime key which is equal to this HeatMapContainer's date,
-                  // we have to color the matched HeatMapContainer.
-                  //
-                  // If datasets is null or doesn't contains the equal DateTime value, send null.
                   selectedColor: datasets?.keys.contains(DateTime(
                               startDate.year,
                               startDate.month,
-                              startDate.day - startDate.weekday % 7 + i)) ??
-                          false
-                      // If colorMode is ColorMode.opacity,
+                              startDate.day - startDate.weekday % 7 + i + 1)) ??
+                          false,
+                  colorMode == ColorMode.opacity
                       ? colorMode == ColorMode.opacity
-                          // Color the container with first value of colorsets
-                          // and set opacity value to current day's datasets key
-                          // devided by maxValue which is the maximum value of the month.
                           ? colorsets?.values.first.withOpacity((datasets?[
                                       DateTime(
                                           startDate.year,
@@ -138,10 +129,6 @@ class HeatMapCalendarRow extends StatelessWidget {
                                               (startDate.weekday % 7))] ??
                                   1) /
                               (maxValue ?? 1))
-                          // Else if colorMode is ColorMode.Color.
-                          //
-                          // Get color value from colorsets which is filtered with DateTime value
-                          // Using DatasetsUtil.getColor()
                           : DatasetsUtil.getColor(
                               colorsets,
                               datasets?[DateTime(
