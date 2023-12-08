@@ -65,7 +65,7 @@ class HeatMapCalendarRow extends StatelessWidget {
   /// Paratmeter gives clicked [DateTime] value.
   final Function(DateTime)? onClick;
 
-   HeatMapCalendarRow({
+  HeatMapCalendarRow({
     Key? key,
     required this.startDate,
     required this.endDate,
@@ -83,26 +83,31 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.onClick,
   })  : dayContainers = List<Widget>.generate(
           7,
-          // Replace startDate with startDate.monday
+          // If current week has first day of the month and
+          // the first day is not a sunday, it must have extra space on it.
+          // Then fill it with empty Container for extra space.
+          //
+          // Do same works if current week has last day of the month and
+          // the last day is not a saturday.
           (i) => (startDate == DateUtil.startDayOfMonth(startDate) &&
-                      endDate.day - startDate.day != 7 &&
-                      i < (startDate.weekday % 7)) ||
-                  (endDate == DateUtil.endDayOfMonth(endDate) &&
-                      endDate.day - startDate.day != 7 &&
-                      i > (endDate.weekday % 7))
-              ? Container(
-                  width: size ?? 42,
-                  height: size ?? 42,
-                  margin: margin ?? const EdgeInsets.all(2),
-                )
+                  endDate.day - startDate.day != 7 &&
+                  i < (startDate.weekday - 1) % 7) ||
+              (endDate == DateUtil.endDayOfMonth(endDate) &&
+                  endDate.day - startDate.day != 7 &&
+                  i >= (endDate.weekday - 1) % 7)
+          ? Container(
+              width: size ?? 42,
+              height: size ?? 42,
+              margin: margin ?? const EdgeInsets.all(2),
+            )
               // If the day is not a empty one then create HeatMapContainer.
               : HeatMapContainer(
                   // Given information about the week is that
                   // start day of week value and end day of week.
                   //
                   // So we have to give every day information to each HeatMapContainer.
-                  date: DateTime.monday(startDate.year, startDate.month,
-                      startDate.day - startDate.weekday % 7 + i),
+                  date: DateTime(startDate.year, startDate.month,
+                  startDate.day - (startDate.weekday - 1) + i),
                   backgroundColor: defaultColor,
                   size: size,
                   fontSize: fontSize,
@@ -146,8 +151,8 @@ class HeatMapCalendarRow extends StatelessWidget {
                       : null,
                 ),
         ),
-      ),
-    );
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
