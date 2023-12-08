@@ -65,7 +65,8 @@ class HeatMapCalendarRow extends StatelessWidget {
   /// Paratmeter gives clicked [DateTime] value.
   final Function(DateTime)? onClick;
 
-  HeatMapCalendarRow({
+  class HeatMapCalendarRow extends StatelessWidget {
+  const HeatMapCalendarRow({
     Key? key,
     required this.startDate,
     required this.endDate,
@@ -139,7 +140,7 @@ class HeatMapCalendarRow extends StatelessWidget {
                 ),
         ),
         super(key: key);
-
+}
   @override
   Widget build(BuildContext context) {
     return Row(
