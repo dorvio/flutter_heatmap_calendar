@@ -169,6 +169,7 @@ class HeatMapCalendarRow extends StatelessWidget {
         for (Widget container in dayContainers)
           WidgetUtil.flexibleContainer(flexible ?? false, true, container),
       ],
-    );
+    ),
+    },
   }
 }
