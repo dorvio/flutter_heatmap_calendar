@@ -1,5 +1,7 @@
 # Flutter Heatmap Calendar
 
+Flutter Heatmap Calendar change to inlude polish language and date in format DD.MM.YYYY.
+
 Flutter Heatmap Calendar inspired by github contribution chart.
 
 Flutter Heatmap Calendar provides traditional contribution chart called `HeatMap` and calendar version of it called `HeatMapCalendar`.
